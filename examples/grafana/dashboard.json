@@ -119,7 +119,7 @@
       "tableColumn": "Value",
       "targets": [
         {
-          "expr": "scalar(elasticsearch_cluster_health_status{color=\"green\",cluster=~\"$cluster\"}) + scalar(elasticsearch_cluster_health_status{color=\"yellow\",cluster=~\"$cluster\"}) * 2 + scalar(elasticsearch_cluster_health_status{color=\"red\",cluster=~\"$cluster\"}) * 3",
+          "expr": "scalar(sum(elasticsearch_cluster_health_status{color=\"green\",cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up) + scalar(sum(elasticsearch_cluster_health_status{color=\"yellow\",cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)) * 2 + scalar(sum(elasticsearch_cluster_health_status{color=\"red\",cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)) * 3",
           "format": "time_series",
           "instant": false,
           "intervalFactor": 1,
@@ -218,7 +218,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(elasticsearch_cluster_health_number_of_nodes{cluster=~\"$cluster\"})/count(elasticsearch_cluster_health_number_of_nodes{cluster=~\"$cluster\"})",
+          "expr": "sum(elasticsearch_cluster_health_number_of_nodes{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -303,7 +303,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "elasticsearch_cluster_health_number_of_data_nodes{cluster=~\"$cluster\"}",
+          "expr": "sum(elasticsearch_cluster_health_number_of_data_nodes{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -382,7 +382,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "elasticsearch_cluster_health_number_of_pending_tasks{cluster=~\"$cluster\"}",
+          "expr": "sum(elasticsearch_cluster_health_number_of_pending_tasks{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -474,7 +474,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "elasticsearch_cluster_health_active_shards{cluster=~\"$cluster\"}",
+          "expr": "sum(elasticsearch_cluster_health_active_shards{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -554,7 +554,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "elasticsearch_cluster_health_active_primary_shards{cluster=~\"$cluster\"}",
+          "expr": "sum(elasticsearch_cluster_health_active_primary_shards{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -633,7 +633,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "elasticsearch_cluster_health_initializing_shards{cluster=~\"$cluster\"}",
+          "expr": "sum(elasticsearch_cluster_health_initializing_shards{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -712,7 +712,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "elasticsearch_cluster_health_relocating_shards{cluster=~\"$cluster\"}",
+          "expr": "sum(elasticsearch_cluster_health_relocating_shards{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -791,7 +791,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "elasticsearch_cluster_health_unassigned_shards{cluster=~\"$cluster\"}",
+          "expr": "sum(elasticsearch_cluster_health_unassigned_shards{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -870,7 +870,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "elasticsearch_cluster_health_delayed_unassigned_shards{cluster=~\"$cluster\"}",
+          "expr": "sum(elasticsearch_cluster_health_delayed_unassigned_shards{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -943,7 +943,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(elasticsearch_indices_docs{cluster=~\"$cluster\"})",
+          "expr": "sum(elasticsearch_indices_docs{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Documents",
@@ -1032,7 +1032,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(elasticsearch_indices_store_size_bytes{cluster=~\"$cluster\"})",
+          "expr": "sum(elasticsearch_indices_store_size_bytes{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Index Size",
@@ -1291,7 +1291,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(elasticsearch_thread_pool_queue_count{cluster=~\"$cluster\", type!=\"management\"}) by (type)",
+          "expr": "sum(elasticsearch_thread_pool_queue_count{cluster=~\"$cluster\", type!=\"management\"})/count(elasticsearch_node_stats_up) by (type)",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Type: {{type}}",
@@ -1416,7 +1416,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(node_memory_MemTotal{cluster=~\"$cluster\"})",
+          "expr": "sum(node_memory_MemTotal{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "intervalFactor": 2,
           "legendFormat": "",
           "metric": "",
@@ -1501,7 +1501,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(node_memory_MemFree{cluster=~\"$cluster\"})",
+          "expr": "sum(node_memory_MemFree{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "intervalFactor": 2,
           "legendFormat": "",
           "refId": "A",
@@ -1585,7 +1585,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(node_memory_MemAvailable{cluster=~\"$cluster\"})",
+          "expr": "sum(node_memory_MemAvailable{cluster=~\"$cluster\"})/count(elasticsearch_node_stats_up)",
           "intervalFactor": 2,
           "legendFormat": "",
           "refId": "A",
@@ -1645,7 +1645,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(elasticsearch_thread_pool_active_count{cluster=~\"$cluster\", type!=\"management\"}) by (type)",
+          "expr": "sum(elasticsearch_thread_pool_active_count{cluster=~\"$cluster\", type!=\"management\"})/count(elasticsearch_node_stats_up) by (type)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2020,7 +2020,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(elasticsearch_transport_rx_packets_total{cluster=~\"$cluster\"}[5m]))",
+          "expr": "sum(rate(elasticsearch_transport_rx_packets_total{cluster=~\"$cluster\"}[5m]))/count(elasticsearch_node_stats_up)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "RX",
@@ -2028,7 +2028,7 @@
           "step": 240
         },
         {
-          "expr": "sum(rate(elasticsearch_transport_tx_packets_total{cluster=~\"$cluster\"}[5m])) * -1",
+          "expr": "sum(rate(elasticsearch_transport_tx_packets_total{cluster=~\"$cluster\"}[5m]))/count(elasticsearch_node_stats_up) * -1",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "TX",
